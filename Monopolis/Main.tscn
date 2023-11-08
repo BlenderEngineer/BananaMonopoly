@@ -1,0 +1,575 @@
+[gd_scene load_steps=15 format=3 uid="uid://dsyul4pqsouyo"]
+
+[ext_resource type="Texture2D" uid="uid://kr7pru01eqss" path="res://Backgrounds/Background_en_US.png" id="1_h0o15"]
+[ext_resource type="Script" path="res://Board.cs" id="1_nca44"]
+[ext_resource type="Script" path="res://Classes/Menu.gd" id="3_le5hw"]
+[ext_resource type="Script" path="res://Classes/StaticData.gd" id="3_ptcnv"]
+[ext_resource type="Texture2D" uid="uid://d3argb8u8mrdb" path="res://Assets/Logo.png" id="3_xti8s"]
+[ext_resource type="Script" path="res://PauseMenu.gd" id="4_ngdgr"]
+[ext_resource type="Theme" uid="uid://b61i05jet6qp6" path="res://Assets/Theme/MinimalUI.tres" id="5_6ude1"]
+[ext_resource type="Script" path="res://DisplayBoard.gd" id="6_wbhb2"]
+[ext_resource type="Script" path="res://Game.gd" id="7_70woq"]
+[ext_resource type="Texture2D" uid="uid://c8mabydg1a8yf" path="res://Assets/BoardTexture.png" id="7_mydl0"]
+[ext_resource type="AudioStream" uid="uid://d1ccout53kytx" path="res://Sounds/Background.mp3" id="11_pj81a"]
+[ext_resource type="Script" path="res://BackgroundMusic.gd" id="12_uu7r3"]
+[ext_resource type="AudioStream" uid="uid://cxd0rs1sfx4xy" path="res://Sounds/BackgroundSecret.mp3" id="12_ytpyd"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p355j"]
+bg_color = Color(0.290196, 0.290196, 0.290196, 0.67451)
+
+[node name="Main" type="Node2D"]
+position = Vector2(1, 0)
+scale = Vector2(1.7, 1.7)
+script = ExtResource("1_nca44")
+
+[node name="Background" type="Sprite2D" parent="."]
+position = Vector2(565.882, 175.294)
+scale = Vector2(1.10473, 0.956523)
+texture = ExtResource("1_h0o15")
+
+[node name="Data" type="Node" parent="."]
+script = ExtResource("3_ptcnv")
+
+[node name="Logo" type="Sprite2D" parent="."]
+position = Vector2(589, 60)
+texture = ExtResource("3_xti8s")
+
+[node name="BoardBackground" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(360, 154)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("7_mydl0")
+centered = false
+script = ExtResource("6_wbhb2")
+
+[node name="Board" type="Node2D" parent="."]
+position = Vector2(360, 154)
+
+[node name="PauseMenu" type="CanvasGroup" parent="."]
+visible = false
+top_level = true
+script = ExtResource("4_ngdgr")
+
+[node name="Background" type="Panel" parent="PauseMenu"]
+custom_minimum_size = Vector2(1920, 1080)
+theme = ExtResource("5_6ude1")
+theme_override_styles/panel = SubResource("StyleBoxFlat_p355j")
+
+[node name="Panel" type="Panel" parent="PauseMenu"]
+modulate = Color(0.960784, 0.933333, 0.721569, 1)
+top_level = true
+offset_left = 678.0
+offset_top = 214.0
+offset_right = 1294.0
+offset_bottom = 1050.0
+theme = ExtResource("5_6ude1")
+
+[node name="TitleLabel" type="Label" parent="PauseMenu/Panel"]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 11.0
+offset_right = 607.0
+offset_bottom = 84.0
+theme = ExtResource("5_6ude1")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 48
+text = "PAUSED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ResumeButton" type="Button" parent="PauseMenu/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.511
+anchor_top = 0.229
+anchor_right = 0.511
+anchor_bottom = 0.229
+offset_left = -204.776
+offset_top = -36.444
+offset_right = 209.224
+offset_bottom = 48.556
+theme = ExtResource("5_6ude1")
+theme_override_font_sizes/font_size = 24
+text = "RESUME"
+
+[node name="MainMenuButton" type="Button" parent="PauseMenu/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.511
+anchor_top = 0.229
+anchor_right = 0.511
+anchor_bottom = 0.229
+offset_left = -204.776
+offset_top = 78.556
+offset_right = 209.224
+offset_bottom = 163.556
+theme = ExtResource("5_6ude1")
+theme_override_font_sizes/font_size = 24
+text = "MAIN_MENU"
+
+[node name="ExitButton" type="Button" parent="PauseMenu/Panel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.511
+anchor_top = 0.397
+anchor_right = 0.511
+anchor_bottom = 0.397
+offset_left = -204.776
+offset_top = 50.108
+offset_right = 207.224
+offset_bottom = 134.108
+theme = ExtResource("5_6ude1")
+theme_override_font_sizes/font_size = 24
+text = "EXIT"
+
+[node name="Menu" type="CanvasGroup" parent="."]
+script = ExtResource("3_le5hw")
+
+[node name="ReloadButton" type="Button" parent="Menu"]
+offset_left = 70.0
+offset_top = 74.0
+offset_right = 310.0
+offset_bottom = 123.0
+theme = ExtResource("5_6ude1")
+text = "RELOAD"
+
+[node name="ClearButton" type="Button" parent="Menu"]
+offset_left = 70.0
+offset_top = 134.0
+offset_right = 310.0
+offset_bottom = 183.0
+theme = ExtResource("5_6ude1")
+text = "REMOVE_BOARD"
+
+[node name="OpenButton" type="Button" parent="Menu"]
+offset_left = 70.0
+offset_top = 200.0
+offset_right = 310.0
+offset_bottom = 249.0
+theme = ExtResource("5_6ude1")
+text = "OPEN"
+
+[node name="AdvancedButton" type="Button" parent="Menu"]
+offset_left = 70.0
+offset_top = 264.0
+offset_right = 310.0
+offset_bottom = 313.0
+theme = ExtResource("5_6ude1")
+text = "ADVANCED"
+
+[node name="LanguageButton" type="Button" parent="Menu"]
+offset_left = 868.0
+offset_top = 74.0
+offset_right = 1108.0
+offset_bottom = 123.0
+theme = ExtResource("5_6ude1")
+text = "LANGUAGE"
+
+[node name="PlayersButton" type="Button" parent="Menu"]
+offset_left = 868.235
+offset_top = 134.118
+offset_right = 1108.24
+offset_bottom = 183.118
+theme = ExtResource("5_6ude1")
+text = "PLAYERS2"
+
+[node name="StartButton" type="Button" parent="Menu"]
+offset_left = 868.0
+offset_top = 238.0
+offset_right = 1108.0
+offset_bottom = 346.0
+tooltip_text = "PLAY_TOOLTIP"
+theme = ExtResource("5_6ude1")
+text = "PLAY"
+
+[node name="AddData" type="TextEdit" parent="Menu"]
+visible = false
+offset_left = 70.0
+offset_top = 313.0
+offset_right = 303.0
+offset_bottom = 511.0
+tooltip_text = "ADD_DATA"
+theme = ExtResource("5_6ude1")
+text = "{\"name\":{\"eng\":\"Start\",\"ltu\":\"Pradžia\",\"lang\":\"\"},\"description\":{\"eng\":\"Collect $200\",\"ltu\":\"Imk $200\",\"lang\":\"\"},\"price\":0,\"color\":\"ffffff\",\"rent\":0,\"type\":0}"
+wrap_mode = 1
+
+[node name="AddPos" type="LineEdit" parent="Menu"]
+visible = false
+offset_left = 70.0
+offset_top = 264.0
+offset_right = 177.0
+offset_bottom = 298.0
+tooltip_text = "ADD_POS_TOOLTIP"
+placeholder_text = "ADD_POS"
+
+[node name="AddNode" type="Button" parent="Menu"]
+visible = false
+offset_left = 70.0
+offset_top = 524.0
+offset_right = 310.0
+offset_bottom = 573.0
+tooltip_text = "ADD_NODE_TOOLTIP"
+theme = ExtResource("5_6ude1")
+text = "ADD_NODE"
+
+[node name="RemovePos" type="LineEdit" parent="Menu"]
+visible = false
+offset_left = 868.0
+offset_top = 475.0
+offset_right = 1108.0
+offset_bottom = 509.0
+tooltip_text = "REMOVE_POS_TOOLTIP"
+placeholder_text = "REMOVE_POS"
+
+[node name="RemoveButton" type="Button" parent="Menu"]
+visible = false
+offset_left = 868.0
+offset_top = 524.0
+offset_right = 1108.0
+offset_bottom = 573.0
+tooltip_text = "REMOVE_NODE_TOOLTIP"
+theme = ExtResource("5_6ude1")
+text = "REMOVE_NODE"
+
+[node name="Game" type="CanvasGroup" parent="."]
+visible = false
+script = ExtResource("7_70woq")
+
+[node name="RollButton" type="Button" parent="Game"]
+offset_left = 868.0
+offset_top = 238.0
+offset_right = 1108.0
+offset_bottom = 346.0
+theme = ExtResource("5_6ude1")
+text = "ROLL"
+metadata/_edit_use_anchors_ = true
+
+[node name="PauseButton" type="Button" parent="Game"]
+offset_left = 31.0
+offset_top = 39.0
+offset_right = 271.0
+offset_bottom = 100.0
+theme = ExtResource("5_6ude1")
+text = "PAUSE"
+metadata/_edit_use_anchors_ = true
+
+[node name="StatsBackground" type="Panel" parent="Game"]
+modulate = Color(0.129412, 0.129412, 0.129412, 0.643137)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.1176
+offset_top = 126.471
+offset_right = 324.118
+offset_bottom = 626.471
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("5_6ude1")
+metadata/_edit_use_anchors_ = true
+
+[node name="Buy" type="Button" parent="Game"]
+visible = false
+offset_left = 868.0
+offset_top = 361.0
+offset_right = 1108.0
+offset_bottom = 530.0
+theme = ExtResource("5_6ude1")
+
+[node name="BuyLabel" type="Label" parent="Game/Buy"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 77.0
+offset_bottom = 50.0
+theme = ExtResource("5_6ude1")
+text = "BUY"
+autowrap_mode = 2
+
+[node name="BuyName" type="Label" parent="Game/Buy"]
+layout_mode = 0
+offset_left = 87.0
+offset_top = 24.0
+offset_right = 221.0
+offset_bottom = 76.0
+theme = ExtResource("5_6ude1")
+text = "Gžegrorz bręzeczyczyszkewitcz avenue"
+autowrap_mode = 3
+
+[node name="PriceLabel" type="Label" parent="Game/Buy"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.586
+anchor_right = 0.1
+anchor_bottom = 0.586
+offset_top = -0.0340042
+offset_right = 53.0
+offset_bottom = 25.966
+theme = ExtResource("5_6ude1")
+text = "FOR"
+autowrap_mode = 2
+
+[node name="PriceNumber" type="Label" parent="Game/Buy"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.262
+anchor_top = 0.586
+anchor_right = 0.262
+anchor_bottom = 0.586
+offset_left = 24.12
+offset_top = -0.0340042
+offset_right = 81.12
+offset_bottom = 25.966
+theme = ExtResource("5_6ude1")
+text = "0"
+autowrap_mode = 2
+
+[node name="CurrencyLabel" type="Label" parent="Game/Buy"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1
+anchor_top = 0.583
+anchor_right = 0.1
+anchor_bottom = 0.583
+offset_left = 120.0
+offset_top = 0.473
+offset_right = 142.0
+offset_bottom = 26.473
+theme = ExtResource("5_6ude1")
+text = "$"
+
+[node name="DiceLabel" type="Label" parent="Game"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = 891.765
+offset_top = 200.0
+offset_right = 991.765
+offset_bottom = 226.0
+grow_horizontal = 0
+theme = ExtResource("5_6ude1")
+text = "DICE"
+horizontal_alignment = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="DiceValue" type="Label" parent="Game"]
+offset_left = 997.059
+offset_top = 200.0
+offset_right = 1060.06
+offset_bottom = 226.0
+theme = ExtResource("5_6ude1")
+text = "0"
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="StatsLabel" type="Label" parent="Game"]
+offset_left = 142.0
+offset_top = 224.0
+offset_right = 205.0
+offset_bottom = 250.0
+theme = ExtResource("5_6ude1")
+text = "STATS"
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="TurnNumberLabel" type="Label" parent="Game"]
+offset_left = 31.0
+offset_top = 134.0
+offset_right = 84.0
+offset_bottom = 175.0
+theme = ExtResource("5_6ude1")
+text = "TURN"
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="TurnNumber" type="Label" parent="Game/TurnNumberLabel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.962
+anchor_right = 0.962
+offset_left = 2.014
+offset_right = 80.014
+offset_bottom = 41.0
+theme = ExtResource("5_6ude1")
+text = "1"
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="CurrentPlayer" type="Label" parent="Game"]
+offset_left = 31.0
+offset_top = 183.0
+offset_right = 94.0
+offset_bottom = 235.0
+theme = ExtResource("5_6ude1")
+text = "PLAYER"
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="CurrentPlayerNumber" type="Label" parent="Game/CurrentPlayer"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_right = 23.0
+offset_bottom = 52.0
+grow_horizontal = 0
+theme = ExtResource("5_6ude1")
+text = "1"
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="MoneyLabel" type="Label" parent="Game"]
+offset_left = 31.0
+offset_top = 249.0
+offset_right = 94.0
+offset_bottom = 275.0
+theme = ExtResource("5_6ude1")
+text = "MONEY"
+metadata/_edit_use_anchors_ = true
+
+[node name="PlayerLabel" type="Label" parent="Game/MoneyLabel"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 21.0
+offset_right = 76.0
+offset_bottom = 47.0
+theme = ExtResource("5_6ude1")
+text = "PLAYER"
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="PlayerNumber" type="Label" parent="Game/MoneyLabel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.206
+anchor_top = 0.808
+anchor_right = 1.206
+anchor_bottom = 0.808
+offset_left = 0.0219955
+offset_top = -0.00800133
+offset_right = 25.022
+offset_bottom = 25.992
+theme = ExtResource("5_6ude1")
+text = "1 - 
+"
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="MoneyNumber" type="Label" parent="Game/MoneyLabel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.603
+anchor_top = 0.808
+anchor_right = 1.603
+anchor_bottom = 0.808
+offset_left = 0.010994
+offset_top = -0.00800133
+offset_right = 111.011
+offset_bottom = 25.992
+theme = ExtResource("5_6ude1")
+text = "0
+"
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="CurrencyLabel" type="Label" parent="Game/MoneyLabel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.603
+anchor_top = 0.808
+anchor_right = 1.603
+anchor_bottom = 0.808
+offset_left = 110.011
+offset_top = -0.00800133
+offset_right = 132.011
+offset_bottom = 25.992
+theme = ExtResource("5_6ude1")
+text = "$"
+metadata/_edit_use_anchors_ = true
+
+[node name="PropertyLabel" type="Label" parent="Game"]
+offset_left = 31.0
+offset_top = 361.0
+offset_right = 94.0
+offset_bottom = 387.0
+theme = ExtResource("5_6ude1")
+text = "PROPERTY"
+metadata/_edit_use_anchors_ = true
+
+[node name="PlayerLabel" type="Label" parent="Game/PropertyLabel"]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 24.0
+offset_right = 80.0
+offset_bottom = 50.0
+theme = ExtResource("5_6ude1")
+text = "PLAYER"
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="PlayerNumber" type="Label" parent="Game/PropertyLabel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.206
+anchor_top = 0.808
+anchor_right = 1.206
+anchor_bottom = 0.808
+offset_left = 4.022
+offset_top = 2.992
+offset_right = 29.022
+offset_bottom = 28.992
+theme = ExtResource("5_6ude1")
+text = "1:
+"
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Property" type="Label" parent="Game/PropertyLabel"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.808
+anchor_right = 0.5
+anchor_bottom = 1.808
+offset_left = 0.499996
+offset_top = -0.00802994
+offset_right = 139.5
+offset_bottom = 25.992
+theme = ExtResource("5_6ude1")
+text = "Gediminas square"
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="BackgroundMusic" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("11_pj81a")
+autoplay = true
+script = ExtResource("12_uu7r3")
+
+[node name="BackgroundAnglis" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("12_ytpyd")
+
+[connection signal="pressed" from="PauseMenu/Panel/ResumeButton" to="PauseMenu" method="_on_resume_button_pressed"]
+[connection signal="pressed" from="PauseMenu/Panel/MainMenuButton" to="PauseMenu" method="_on_main_menu_button_pressed"]
+[connection signal="pressed" from="PauseMenu/Panel/ExitButton" to="PauseMenu" method="_on_exit_button_pressed"]
+[connection signal="pressed" from="Menu/ReloadButton" to="BoardBackground" method="_on_reload_button_pressed"]
+[connection signal="pressed" from="Menu/ReloadButton" to="Menu" method="_on_reload_button_pressed"]
+[connection signal="pressed" from="Menu/ClearButton" to="BoardBackground" method="_on_clear_button_pressed"]
+[connection signal="pressed" from="Menu/ClearButton" to="Menu" method="_on_clear_button_pressed"]
+[connection signal="pressed" from="Menu/OpenButton" to="Menu" method="_on_open_button_pressed"]
+[connection signal="pressed" from="Menu/AdvancedButton" to="Menu" method="_on_advanced_button_pressed"]
+[connection signal="pressed" from="Menu/LanguageButton" to="BoardBackground" method="_on_language_button_pressed"]
+[connection signal="pressed" from="Menu/LanguageButton" to="Menu" method="_on_language_button_pressed"]
+[connection signal="pressed" from="Menu/PlayersButton" to="Menu" method="_on_players_button_pressed"]
+[connection signal="pressed" from="Menu/StartButton" to="Menu" method="_on_start_button_pressed"]
+[connection signal="pressed" from="Menu/AddNode" to="BoardBackground" method="_on_add_node_pressed"]
+[connection signal="pressed" from="Menu/AddNode" to="Menu" method="_on_add_node_pressed"]
+[connection signal="pressed" from="Menu/RemoveButton" to="BoardBackground" method="_on_remove_button_pressed"]
+[connection signal="pressed" from="Menu/RemoveButton" to="Menu" method="_on_remove_button_pressed"]
+[connection signal="draw" from="Game" to="." method="OnGameDraw"]
+[connection signal="draw" from="Game" to="BoardBackground" method="_on_game_draw"]
+[connection signal="hidden" from="Game" to="BoardBackground" method="_on_game_hidden"]
+[connection signal="pressed" from="Game/RollButton" to="." method="OnRollButtonPressed"]
+[connection signal="pressed" from="Game/PauseButton" to="Game" method="_on_pause_button_pressed"]
+[connection signal="pressed" from="Game/Buy" to="Game" method="_on_start_button_pressed"]
+[connection signal="finished" from="BackgroundMusic" to="BackgroundMusic" method="_on_finished"]
+[connection signal="finished" from="BackgroundAnglis" to="BackgroundMusic" method="_on_background_anglis_finished"]

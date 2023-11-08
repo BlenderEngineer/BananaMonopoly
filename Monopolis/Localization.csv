@@ -1,0 +1,35 @@
+,en_US,lt
+RELOAD,Reload board from JSON,Perkrauti lentą iš JSON bylos
+REMOVE_BOARD,Remove board,Panaikinti lentą
+OPEN,Open board JSON file,Atverti lentos JSON bylą
+ADVANCED,Advanced setup,Sąranka pažengusiems
+LANGUAGE,Language: ENG,Kalba: LTU
+PLAY,Play,Pažaiskime
+ROLL,Roll,Ridenti
+MONEY,Money,Pinigai
+STATS,Stats,Statistika
+PLAYER,Player,Žaidėjas
+PROPERTY,Property,Nekilnojamas turtas
+$,$,€
+TURN,Turn,Ėjimas
+ADD_DATA,Add your custom square. Board cannot have more than 16 squares,Pridėkite savo langelį. Lenta negali turėti virš 16-os langelių
+ADD_POS,Position,Pozicija
+ADD_NODE,Add node,Pridėti mazgą
+REMOVE_POS,Position # or name,Pozicijos nr. arba vardas
+REMOVE_NODE,Remove square,Naikinti langelį
+ADD_POS_TOOLTIP,Enter position of the square you want to add,"Įveskite langelio poziciją, kurį norite pridėti"
+ADD_NODE_TOOLTIP,A new square will be added on press,Paspaudžius bus pridėtas naujas langelis lentoje
+REMOVE_POS_TOOLTIP,Enter position of the square you want to remove,"Įveskite langelio poziciją, kurį norite panaikinti"
+REMOVE_NODE_TOOLTIP,Will remove the square in your given position or with the given name,Panaikins langelį jūsų įvestoje pozicijoje arba pagal įvestą vardą
+PLAY_TOOLTIP,Start the game,Pradėkime žaidimą
+REMOVE_BOARD_TOOLTIP,Clears all board squares,Panaikina visus lentos langelius
+BUY,BUY,PIRKTI
+FOR,FOR,UŽ
+PAUSED,Game Paused,Žaidimas Sustabdytas
+PAUSE,Pause Game,Sustabdyti Žaidimą
+MAIN_MENU,Main Menu,Į Pagrindinį Meniu
+EXIT,Exit game,Išeiti iš žaidimo
+RESUME,Resume game,Tęsti žaidimą
+PLAYERS2,2 Players,2 Žaidėjai
+PLAYERS3,3 Players,3 Žaidėjai
+DICE,Current dice roll:,Atvirto akučių:
