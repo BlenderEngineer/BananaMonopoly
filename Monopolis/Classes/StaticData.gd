@@ -1,7 +1,7 @@
 extends Node
 
 
-var itemData = {}
+@export var itemData = {}
 var playerCount = 2
 
 var data_file_path = "res://Data/Board.json"
