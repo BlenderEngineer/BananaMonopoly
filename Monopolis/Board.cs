@@ -1,21 +1,31 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 
 class Square
 {
-	public string Key { get; set; }
+	public int ID { get; set; }
 	public string Name { get; set; }
 	public int Type { get; set; }
 	public int Price { get; set; }
+}
+class Player
+{
+	public int ID { get; set; }
+	public int Money { get; set; }
+	public LinkedListNode<Square> CurrentSquare { get; set; }
+	public string[] Property { get; set; }
 }
 
 public partial class Board : Node2D
 {
 	LinkedList<Square> linkedList = new LinkedList<Square>();
-	public Queue<string> playerQueue;
+	private Queue<Player> playerQueue;
 	private int currentTileIndex = 0;
 	private int turnNumber = 1;
+	private int playerCount = 2;
+	private int moneyGoal = 0;
 	private Tile[] tiles;
 	
 	public override void _Ready()
@@ -25,10 +35,8 @@ public partial class Board : Node2D
 	
 	private void OnGameDraw() //make sure event is using C# syntax, not gdscript
 	{
-		GD.Print("Preparing Game");
-		InitializePlayers();
-		GD.Print("Players enqueued.");
 		StartGame();
+		GD.Print("Game prepared.");
 		GD.Print("Game is ready");
 	}
 	
@@ -47,60 +55,115 @@ public partial class Board : Node2D
 		UpdateStats(NextPlayerTurn(diceRoll));
 	}
 	
+	private void OnPlayersButtonPressed()
+	{
+		if (playerCount == 2) {
+			playerCount = 3;
+			GetNode<Label>("Game/MoneyLabel/PlayerLabel3").Visible = true;
+			GetNode<Sprite2D>("Game/Players/3").Visible = true;
+		}
+		else {
+			playerCount = 2;
+			GetNode<Label>("Game/MoneyLabel/PlayerLabel3").Visible = false;
+			GetNode<Sprite2D>("Game/Players/3").Visible = false;
+		}
+	}
+	
 	private void UpdateStats(string CurrentPlayerName)
 	{
 		GetNode<Label>("Game/TurnNumberLabel/TurnNumber").Text = turnNumber.ToString();
 		GetNode<Label>("Game/CurrentPlayer/CurrentPlayerNumber").Text = CurrentPlayerName;
-		GetNode<Label>("Game/PropertyLabel/Property").Text = "WIP";
-		GetNode<Label>("").Text = "WIP";
-		GetNode<Label>("").Text = "WIP";
-		GetNode<Label>("").Text = "WIP";
-		GetNode<Label>("").Text = "WIP";
+		GetNode<Label>("Game/MoneyLabel/PlayerLabel" + CurrentPlayerName + "/MoneyNumber").Text = playerQueue.Peek().Money.ToString();
+//		GetNode<Label>("Game/PropertyLabel/Property").Text = "WIP";
+//		GetNode<Label>("").Text = "WIP";
+//		GetNode<Label>("").Text = "WIP";
+//		GetNode<Label>("").Text = "WIP";
+//		GetNode<Label>("").Text = "WIP";
 	}
 	private void InitializePlayers()
 	{
 		// Create and initialize player objects
-		playerQueue = new Queue<string>();
-		playerQueue.Enqueue("1");
-		playerQueue.Enqueue("2");
-		playerQueue.Enqueue("3");
+		playerQueue = new Queue<Player>();
+		
+		for (int i = 1; i < playerCount+1; i++){
+			Player player = new Player();
+			player.ID = i;
+			player.Money = 200;
+			player.CurrentSquare = linkedList.First;
+			playerQueue.Enqueue(player);
+		}
 		currentTileIndex = 0;
+		GD.Print("Players enqueued.");
 	}
 
 	private void StartGame()
 	{
 		
-		GD.Print("Player count ", GetNode<Button>("%..%/Menu%/PlayersButton").Text);
-//		var staticData = GetNode<Class>("res://Classes/StaticData.gd");
+		GD.Print("Player count ", playerCount);
+		//set money goal
+		moneyGoal = GetNode("Menu/MoneyGoal").Text.ToInt();
 		
-//		foreach (var item in staticData.itemData) //if this no work maybe go through nodes?
-//		{
-//			linkedList.AddLast(item);
-//		}
-//
-//		// Iterate over the linked list
-//		foreach (var item in [1])
-//		{
-//			GD.Print(item);
-//		}
+		var board = GetNode<Node2D>("Board");
+		
+		int i = 0;
+		foreach (var item in board.GetChildren()) //go through nodes
+		{
+			Square newSquare = new Square();
+			newSquare.ID = i;
+			newSquare.Name = item.GetNode<Label>("name").Text;
+			newSquare.Price = item.GetNode<Label>("price").Text.ToInt();
+			newSquare.Type = 2;
+			
+			linkedList.AddLast(newSquare);
+			i++;
+		}
+		
+		InitializePlayers();
 		// Begin the game loop
-		//TO DO: reset board
+		turnNumber = 1;
+		currentTileIndex = 0;
+		var SCALE = 50;
+		var players = GetNode<Node2D>("Game/Players");
+		foreach (Sprite2D player in players.GetChildren())
+		{
+			string playerName = player.Name;
+			GD.Print("Player  ==",player.Position);
+			player.Position = new Vector2(0, playerName.ToInt() * 10) * SCALE;
+		}
+		for(int playerID = 1; playerID < playerCount+1; playerID++){
+			UpdateStats(playerID.ToString());
+		}
 	}
 
 	public string NextPlayerTurn(int diceRoll)
 	{
 		// Get the current player
 		// roll dice
-		// use abstractions to interact with these from game.gd
-		var currentPlayerName = playerQueue.Peek();
+		var player = playerQueue.Peek();
+		var currentPlayerName = player.ID.ToString();
 		GD.Print(currentPlayerName, " turn");
 		
-		var newPosition = (currentTileIndex + diceRoll) ; // replace with for loop to go to next
-		//currentTileIndex = newPosition;
+// replace with for loop to go to next
+		var SCALE = 50; // because image size
+		for(int i = 0; i < diceRoll; i++){
+			if (player.CurrentSquare.Next == null) {
+				player.CurrentSquare = linkedList.First;
+				continue;
+			}
+			player.CurrentSquare = player.CurrentSquare.Next;
+			var SquareNode = GetNode<Node2D>("Board").GetNode<Panel>(player.CurrentSquare.Value.ID.ToString());
+			GD.Print(SquareNode.Position);
+			GetNode<Sprite2D>("Game/Players/" + player.ID.ToString()).Position = (SquareNode.Position + new Vector2(0, player.ID*10)) * SCALE;
+			
+		}
+		if (player.CurrentSquare.Value.Price != 99999) player.Money += player.CurrentSquare.Value.Price;
+		GD.Print("New Square = ", player.CurrentSquare.Value.Name);
+		//TODO: add player position display
+//		currentTileIndex = newPosition;
 
-		// Check if the player landed on a property
+//		 Check if the player landed on a property
 //		var tileType = currentTile.Type;
-//		if (tileType == "property")
+//		if (tileType == 2)
 //		{
 //			var owner = currentTile.Owner;
 //			var price = currentTile.Price;
@@ -109,36 +172,36 @@ public partial class Board : Node2D
 //			if (owner == "")
 //			{
 //				// Tile is unowned, player can buy it
-//				Console.WriteLine(currentPlayerName + " landed on an unowned property. Price: " + price);
+//				GD.Print(currentPlayerName + " landed on an unowned property. Price: " + price);
 //				var playerDecision = PromptPlayerToBuyProperty(price);
 //				if (playerDecision)
 //				{
 //					currentTile.Owner = currentPlayerName;
-//					Console.WriteLine(currentPlayerName + " bought the property.");
+//					GD.Print(currentPlayerName + " bought the property.");
 //				}
 //			}
 //			else if (owner != currentPlayerName)
 //			{
 //				// Tile is owned by another player, player pays rent
-//				Console.WriteLine(currentPlayerName + " landed on a property owned by " + owner + ". Rent: " + rent);
+//				GD.Print(currentPlayerName + " landed on a property owned by " + owner + ". Rent: " + rent);
 //				PayRent(owner, rent);
 //			}
 //		}
 
 		// Move to the next player
 		playerQueue.Enqueue(playerQueue.Dequeue());
-		currentPlayerName = playerQueue.Peek();
+		currentPlayerName = playerQueue.Peek().ID.ToString();
 
 		// Check if the game is over
 		if (CheckGameOver())
 		{
-			Console.WriteLine("Game over!");
+			GD.Print("Game over!");
 			return currentPlayerName;
 		}
 		// Continue to the next player's turn from game.gdscript
 		return currentPlayerName;
 	}
-
+	
 	private bool PromptPlayerToBuyProperty(int price)
 	{
 		return true;
@@ -151,7 +214,8 @@ public partial class Board : Node2D
 
 	private bool CheckGameOver()
 	{
-		
+		GD.Print("Money goal = ", moneyGoal)
+		//TO DO: check every player money and find one that is more than moneyGoal
 		return false; // Replace with actual condition
 	}
 }

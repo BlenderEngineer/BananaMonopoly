@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://dsyul4pqsouyo"]
+[gd_scene load_steps=16 format=3 uid="uid://dsyul4pqsouyo"]
 
 [ext_resource type="Texture2D" uid="uid://kr7pru01eqss" path="res://Backgrounds/Background_en_US.png" id="1_h0o15"]
 [ext_resource type="Script" path="res://Board.cs" id="1_nca44"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://d3argb8u8mrdb" path="res://Assets/Logo.png" id="3_xti8s"]
 [ext_resource type="Script" path="res://PauseMenu.gd" id="4_ngdgr"]
 [ext_resource type="Theme" uid="uid://b61i05jet6qp6" path="res://Assets/Theme/MinimalUI.tres" id="5_6ude1"]
+[ext_resource type="Texture2D" uid="uid://cvsxtw6p42swl" path="res://Assets/Player.png" id="5_u11ak"]
 [ext_resource type="Script" path="res://DisplayBoard.gd" id="6_wbhb2"]
 [ext_resource type="Script" path="res://Game.gd" id="7_70woq"]
 [ext_resource type="Texture2D" uid="uid://c8mabydg1a8yf" path="res://Assets/BoardTexture.png" id="7_mydl0"]
@@ -31,7 +32,8 @@ texture = ExtResource("1_h0o15")
 script = ExtResource("3_ptcnv")
 
 [node name="Logo" type="Sprite2D" parent="."]
-position = Vector2(589, 60)
+position = Vector2(589, 70)
+scale = Vector2(0.4, 0.4)
 texture = ExtResource("3_xti8s")
 
 [node name="BoardBackground" type="Sprite2D" parent="."]
@@ -202,6 +204,24 @@ offset_bottom = 298.0
 tooltip_text = "ADD_POS_TOOLTIP"
 placeholder_text = "ADD_POS"
 
+[node name="MoneyGoalLabel" type="Label" parent="Menu"]
+offset_left = 868.0
+offset_top = 190.0
+offset_right = 976.0
+offset_bottom = 223.0
+theme = ExtResource("5_6ude1")
+theme_override_font_sizes/font_size = 12
+text = "GOAL"
+autowrap_mode = 2
+
+[node name="MoneyGoal" type="LineEdit" parent="Menu"]
+offset_left = 991.765
+offset_top = 190.0
+offset_right = 1098.76
+offset_bottom = 224.0
+tooltip_text = "ADD_POS_TOOLTIP"
+text = "2500"
+
 [node name="AddNode" type="Button" parent="Menu"]
 visible = false
 offset_left = 70.0
@@ -358,7 +378,6 @@ offset_top = 200.0
 offset_right = 1060.06
 offset_bottom = 226.0
 theme = ExtResource("5_6ude1")
-text = "0"
 autowrap_mode = 2
 metadata/_edit_use_anchors_ = true
 
@@ -427,7 +446,7 @@ theme = ExtResource("5_6ude1")
 text = "MONEY"
 metadata/_edit_use_anchors_ = true
 
-[node name="PlayerLabel" type="Label" parent="Game/MoneyLabel"]
+[node name="PlayerLabel1" type="Label" parent="Game/MoneyLabel"]
 layout_mode = 0
 offset_left = 13.0
 offset_top = 21.0
@@ -438,56 +457,178 @@ text = "PLAYER"
 autowrap_mode = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="PlayerNumber" type="Label" parent="Game/MoneyLabel"]
+[node name="PlayerNumber" type="Label" parent="Game/MoneyLabel/PlayerLabel1"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.206
 anchor_top = 0.808
 anchor_right = 1.206
 anchor_bottom = 0.808
-offset_left = 0.0219955
-offset_top = -0.00800133
-offset_right = 25.022
-offset_bottom = 25.992
+offset_left = -12.978
+offset_top = -21.008
+offset_right = 12.022
+offset_bottom = 4.992
 theme = ExtResource("5_6ude1")
 text = "1 - 
 "
 autowrap_mode = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="MoneyNumber" type="Label" parent="Game/MoneyLabel"]
+[node name="MoneyNumber" type="Label" parent="Game/MoneyLabel/PlayerLabel1"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.603
 anchor_top = 0.808
 anchor_right = 1.603
 anchor_bottom = 0.808
-offset_left = 0.010994
-offset_top = -0.00800133
-offset_right = 111.011
-offset_bottom = 25.992
+offset_left = -12.989
+offset_top = -21.008
+offset_right = 98.011
+offset_bottom = 4.992
 theme = ExtResource("5_6ude1")
 text = "0
 "
 autowrap_mode = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="CurrencyLabel" type="Label" parent="Game/MoneyLabel"]
+[node name="CurrencyLabel" type="Label" parent="Game/MoneyLabel/PlayerLabel1"]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.603
 anchor_top = 0.808
 anchor_right = 1.603
 anchor_bottom = 0.808
-offset_left = 110.011
-offset_top = -0.00800133
-offset_right = 132.011
-offset_bottom = 25.992
+offset_left = 97.011
+offset_top = -21.008
+offset_right = 119.011
+offset_bottom = 4.992
+theme = ExtResource("5_6ude1")
+text = "$"
+metadata/_edit_use_anchors_ = true
+
+[node name="PlayerLabel2" type="Label" parent="Game/MoneyLabel"]
+layout_mode = 0
+offset_left = 13.0
+offset_top = 51.0
+offset_right = 76.0
+offset_bottom = 77.0
+theme = ExtResource("5_6ude1")
+text = "PLAYER"
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="PlayerNumber" type="Label" parent="Game/MoneyLabel/PlayerLabel2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.206
+anchor_top = 0.808
+anchor_right = 1.206
+anchor_bottom = 0.808
+offset_left = -12.978
+offset_top = -21.008
+offset_right = 12.022
+offset_bottom = 4.992
+theme = ExtResource("5_6ude1")
+text = "2 - 
+"
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="MoneyNumber" type="Label" parent="Game/MoneyLabel/PlayerLabel2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.603
+anchor_top = 0.808
+anchor_right = 1.603
+anchor_bottom = 0.808
+offset_left = -12.989
+offset_top = -21.008
+offset_right = 98.011
+offset_bottom = 4.992
+theme = ExtResource("5_6ude1")
+text = "0
+"
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="CurrencyLabel" type="Label" parent="Game/MoneyLabel/PlayerLabel2"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.603
+anchor_top = 0.808
+anchor_right = 1.603
+anchor_bottom = 0.808
+offset_left = 97.011
+offset_top = -21.008
+offset_right = 119.011
+offset_bottom = 4.992
+theme = ExtResource("5_6ude1")
+text = "$"
+metadata/_edit_use_anchors_ = true
+
+[node name="PlayerLabel3" type="Label" parent="Game/MoneyLabel"]
+visible = false
+layout_mode = 0
+offset_left = 13.0
+offset_top = 81.0
+offset_right = 76.0
+offset_bottom = 107.0
+theme = ExtResource("5_6ude1")
+text = "PLAYER"
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="PlayerNumber" type="Label" parent="Game/MoneyLabel/PlayerLabel3"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.206
+anchor_top = 0.808
+anchor_right = 1.206
+anchor_bottom = 0.808
+offset_left = -12.978
+offset_top = -21.008
+offset_right = 12.022
+offset_bottom = 4.992
+theme = ExtResource("5_6ude1")
+text = "3 - 
+"
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="MoneyNumber" type="Label" parent="Game/MoneyLabel/PlayerLabel3"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.603
+anchor_top = 0.808
+anchor_right = 1.603
+anchor_bottom = 0.808
+offset_left = -12.989
+offset_top = -21.008
+offset_right = 98.011
+offset_bottom = 4.992
+theme = ExtResource("5_6ude1")
+text = "0
+"
+autowrap_mode = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="CurrencyLabel" type="Label" parent="Game/MoneyLabel/PlayerLabel3"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.603
+anchor_top = 0.808
+anchor_right = 1.603
+anchor_bottom = 0.808
+offset_left = 97.011
+offset_top = -21.008
+offset_right = 119.011
+offset_bottom = 4.992
 theme = ExtResource("5_6ude1")
 text = "$"
 metadata/_edit_use_anchors_ = true
 
 [node name="PropertyLabel" type="Label" parent="Game"]
+visible = false
 offset_left = 31.0
 offset_top = 361.0
 offset_right = 94.0
@@ -540,6 +681,25 @@ text = "Gediminas square"
 autowrap_mode = 2
 metadata/_edit_use_anchors_ = true
 
+[node name="Players" type="Node2D" parent="Game"]
+position = Vector2(410, 174.118)
+scale = Vector2(0.02, 0.02)
+
+[node name="1" type="Sprite2D" parent="Game/Players"]
+position = Vector2(-205.9, 1617.64)
+texture = ExtResource("5_u11ak")
+
+[node name="2" type="Sprite2D" parent="Game/Players"]
+modulate = Color(0.101961, 1, 1, 1)
+position = Vector2(-441.193, 1382.35)
+texture = ExtResource("5_u11ak")
+
+[node name="3" type="Sprite2D" parent="Game/Players"]
+visible = false
+modulate = Color(1, 0.388235, 0.4, 1)
+position = Vector2(-647.076, 1235.29)
+texture = ExtResource("5_u11ak")
+
 [node name="BackgroundMusic" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("11_pj81a")
 autoplay = true
@@ -559,6 +719,7 @@ stream = ExtResource("12_ytpyd")
 [connection signal="pressed" from="Menu/AdvancedButton" to="Menu" method="_on_advanced_button_pressed"]
 [connection signal="pressed" from="Menu/LanguageButton" to="BoardBackground" method="_on_language_button_pressed"]
 [connection signal="pressed" from="Menu/LanguageButton" to="Menu" method="_on_language_button_pressed"]
+[connection signal="pressed" from="Menu/PlayersButton" to="." method="OnPlayersButtonPressed"]
 [connection signal="pressed" from="Menu/PlayersButton" to="Menu" method="_on_players_button_pressed"]
 [connection signal="pressed" from="Menu/StartButton" to="Menu" method="_on_start_button_pressed"]
 [connection signal="pressed" from="Menu/AddNode" to="BoardBackground" method="_on_add_node_pressed"]
