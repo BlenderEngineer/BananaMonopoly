@@ -32,6 +32,7 @@ func DrawCell(position, ID, name, description, color, type, price = null, rent =
 	Cell.modulate = Color.html(color)
 	Cell.get_node("name").text = name
 	Cell.tooltip_text = description
+	Cell.get_node("type").text = str(type)
 	if price > 0:
 		Cell.get_node("price").text = str(price)
 	else:

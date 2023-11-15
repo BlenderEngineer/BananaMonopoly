@@ -101,7 +101,7 @@ public partial class Board : Node2D
 		
 		GD.Print("Player count ", playerCount);
 		//set money goal
-		moneyGoal = GetNode("Menu/MoneyGoal").Text.ToInt();
+		moneyGoal = GetNode<LineEdit>("Menu/MoneyGoal").Text.ToInt();
 		
 		var board = GetNode<Node2D>("Board");
 		
@@ -112,7 +112,7 @@ public partial class Board : Node2D
 			newSquare.ID = i;
 			newSquare.Name = item.GetNode<Label>("name").Text;
 			newSquare.Price = item.GetNode<Label>("price").Text.ToInt();
-			newSquare.Type = 2;
+			newSquare.Type = item.GetNode<Label>("type").Text.ToInt();
 			
 			linkedList.AddLast(newSquare);
 			i++;
@@ -156,8 +156,36 @@ public partial class Board : Node2D
 			GetNode<Sprite2D>("Game/Players/" + player.ID.ToString()).Position = (SquareNode.Position + new Vector2(0, player.ID*10)) * SCALE;
 			
 		}
-		if (player.CurrentSquare.Value.Price != 99999) player.Money += player.CurrentSquare.Value.Price;
+		int SquareType = player.CurrentSquare.Value.Type;
+		//Different types of squares
+		GD.Print(SquareType);
+		switch(SquareType)
+		{
+			case 0:
+				player.Money += 200; //start
+				break;
+			case 1:
+				player.Money += player.CurrentSquare.Value.Price; // basic
+				break;
+			case 2: // banana market
+				break;
+			case 3: // banana factory
+				player.Money -= player.CurrentSquare.Value.Price;
+				break;
+			case 4: // banana resort
+				break;
+			case 5: // banana lottery (chance)
+				Random random = new Random();
+				int RNG = random.Next(-200, 201);
+				player.Money += RNG; // banana factory
+				break;
+			default:
+				break;
+		}
 		GD.Print("New Square = ", player.CurrentSquare.Value.Name);
+		for(int playerID = 1; playerID < playerCount+1; playerID++){
+			UpdateStats(playerID.ToString());
+		}
 		//TODO: add player position display
 //		currentTileIndex = newPosition;
 
@@ -188,17 +216,22 @@ public partial class Board : Node2D
 //			}
 //		}
 
-		// Move to the next player
-		playerQueue.Enqueue(playerQueue.Dequeue());
-		currentPlayerName = playerQueue.Peek().ID.ToString();
-
 		// Check if the game is over
 		if (CheckGameOver())
 		{
 			GD.Print("Game over!");
+			GD.Print("Player ", currentPlayerName, " wins!");
+			
+			var WinnerLabel = GetNode<Label>("Winner");
+			WinnerLabel.Text = currentPlayerName;
+			WinnerLabel.Visible = true;
 			return currentPlayerName;
 		}
-		// Continue to the next player's turn from game.gdscript
+		
+		// Move to the next player
+		playerQueue.Enqueue(playerQueue.Dequeue());
+		currentPlayerName = playerQueue.Peek().ID.ToString();
+
 		return currentPlayerName;
 	}
 	
@@ -214,9 +247,7 @@ public partial class Board : Node2D
 
 	private bool CheckGameOver()
 	{
-		GD.Print("Money goal = ", moneyGoal)
-		//TO DO: check every player money and find one that is more than moneyGoal
-		return false; // Replace with actual condition
+		return playerQueue.Peek().Money >= moneyGoal;
 	}
 }
 

@@ -45,6 +45,20 @@ text = "99999"
 autowrap_mode = 3
 text_overrun_behavior = 3
 
+[node name="type" type="Label" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 15.0
+offset_top = 50.0
+offset_right = 62.0
+offset_bottom = 98.0
+theme = ExtResource("1_q4m43")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_shadow_color = Color(0.494118, 0.494118, 0.494118, 1)
+text = "0"
+autowrap_mode = 3
+text_overrun_behavior = 3
+
 [node name="currency" type="Label" parent="."]
 layout_mode = 0
 offset_left = 61.0
