@@ -25,8 +25,8 @@ public partial class Board : Node2D
 	private int currentTileIndex = 0;
 	private int turnNumber = 1;
 	private int playerCount = 2;
+	private int moneyStart = 200;
 	private int moneyGoal = 0;
-	private Tile[] tiles;
 	
 	public override void _Ready()
 	{
@@ -52,7 +52,8 @@ public partial class Board : Node2D
 		GD.Print("The dice rolled: " + diceRoll);
 		GetNode<Label>("Game/DiceValue").Text = diceRoll.ToString();
 		turnNumber++;
-		UpdateStats(NextPlayerTurn(diceRoll));
+		NextPlayerTurn(diceRoll);
+		UpdateStats();
 	}
 	
 	private void OnPlayersButtonPressed()
@@ -69,11 +70,12 @@ public partial class Board : Node2D
 		}
 	}
 	
-	private void UpdateStats(string CurrentPlayerName)
+	private void UpdateStats()
 	{
+		string CurrentPlayerID = playerQueue.Peek().ID.ToString();
 		GetNode<Label>("Game/TurnNumberLabel/TurnNumber").Text = turnNumber.ToString();
-		GetNode<Label>("Game/CurrentPlayer/CurrentPlayerNumber").Text = CurrentPlayerName;
-		GetNode<Label>("Game/MoneyLabel/PlayerLabel" + CurrentPlayerName + "/MoneyNumber").Text = playerQueue.Peek().Money.ToString();
+		GetNode<Label>("Game/CurrentPlayer/CurrentPlayerNumber").Text = CurrentPlayerID;
+		GetNode<Label>("Game/MoneyLabel/PlayerLabel" + CurrentPlayerID + "/MoneyNumber").Text = playerQueue.Peek().Money.ToString();
 //		GetNode<Label>("Game/PropertyLabel/Property").Text = "WIP";
 //		GetNode<Label>("").Text = "WIP";
 //		GetNode<Label>("").Text = "WIP";
@@ -88,9 +90,11 @@ public partial class Board : Node2D
 		for (int i = 1; i < playerCount+1; i++){
 			Player player = new Player();
 			player.ID = i;
-			player.Money = 200;
+			player.Money = moneyStart;
 			player.CurrentSquare = linkedList.First;
 			playerQueue.Enqueue(player);
+			//reset player money display
+			GetNode<Label>("Game/MoneyLabel/PlayerLabel" + i.ToString() + "/MoneyNumber").Text = moneyStart.ToString();
 		}
 		currentTileIndex = 0;
 		GD.Print("Players enqueued.");
@@ -100,10 +104,15 @@ public partial class Board : Node2D
 	{
 		
 		GD.Print("Player count ", playerCount);
+		//reset the values
+		GetNode<Label>("Game/TurnNumberLabel/TurnNumber").Text = "1";
+		GetNode<Label>("Game/CurrentPlayer/CurrentPlayerNumber").Text = "1";
+		
 		//set money goal
 		moneyGoal = GetNode<LineEdit>("Menu/MoneyGoal").Text.ToInt();
 		
 		var board = GetNode<Node2D>("Board");
+		
 		
 		int i = 0;
 		foreach (var item in board.GetChildren()) //go through nodes
@@ -130,9 +139,9 @@ public partial class Board : Node2D
 			GD.Print("Player  ==",player.Position);
 			player.Position = new Vector2(0, playerName.ToInt() * 10) * SCALE;
 		}
-		for(int playerID = 1; playerID < playerCount+1; playerID++){
-			UpdateStats(playerID.ToString());
-		}
+//		for(int playerID = 1; playerID < playerCount+1; playerID++){
+//			UpdateStats(playerID.ToString());
+//		}
 	}
 
 	public string NextPlayerTurn(int diceRoll)
@@ -183,10 +192,9 @@ public partial class Board : Node2D
 				break;
 		}
 		GD.Print("New Square = ", player.CurrentSquare.Value.Name);
-		for(int playerID = 1; playerID < playerCount+1; playerID++){
-			UpdateStats(playerID.ToString());
-		}
-		//TODO: add player position display
+		//for(int playerID = 1; playerID < playerCount+1; playerID++){
+			UpdateStats();
+		//}
 //		currentTileIndex = newPosition;
 
 //		 Check if the player landed on a property
@@ -249,12 +257,4 @@ public partial class Board : Node2D
 	{
 		return playerQueue.Peek().Money >= moneyGoal;
 	}
-}
-
-public struct Tile
-{
-	public string Type;
-	public string Owner;
-	public int Price;
-	public int Rent;
 }

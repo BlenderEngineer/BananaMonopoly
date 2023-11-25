@@ -62,6 +62,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="WinsLabel" type="Label" parent="Winner"]
+layout_mode = 0
 offset_top = 130.0
 offset_right = 1122.0
 offset_bottom = 639.0
@@ -75,6 +76,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="PlayerLabel" type="Label" parent="Winner"]
+layout_mode = 0
 offset_top = 130.0
 offset_right = 1122.0
 offset_bottom = 368.0
@@ -526,7 +528,7 @@ offset_top = -21.008
 offset_right = 98.011
 offset_bottom = 4.992
 theme = ExtResource("5_6ude1")
-text = "0
+text = "200
 "
 autowrap_mode = 2
 metadata/_edit_use_anchors_ = true
@@ -586,7 +588,7 @@ offset_top = -21.008
 offset_right = 98.011
 offset_bottom = 4.992
 theme = ExtResource("5_6ude1")
-text = "0
+text = "200
 "
 autowrap_mode = 2
 metadata/_edit_use_anchors_ = true
@@ -647,7 +649,7 @@ offset_top = -21.008
 offset_right = 98.011
 offset_bottom = 4.992
 theme = ExtResource("5_6ude1")
-text = "0
+text = "200
 "
 autowrap_mode = 2
 metadata/_edit_use_anchors_ = true
